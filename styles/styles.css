@@ -1,0 +1,86 @@
+body {
+  height: 100vh;
+  margin: 0;
+  background-color: hsl(0, 0%, 86%);
+  font-family: Poppins;
+
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  background-color: white;
+  margin: auto;
+  padding: 60px;
+  width: 60%;
+
+  border-radius: 30px 30px 80px 30px;
+}
+
+
+.input-section {
+  position: relative;
+  display: flex;
+  gap: 40px;
+  border-bottom: 1px solid grey;
+  padding-bottom: 40px;
+  padding-right: 180px;
+}
+
+.input-group  {
+  width: 100%;
+}
+
+.input-section label {
+  font-weight: 600;
+  font-size: 16px;
+  color: hsl(0, 0%, 8%);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.input-group input {
+  width: 80%;
+  font-size: 32px;
+  font-weight: 800;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid grey;
+}
+
+button {
+  background-color: hsl(259, 100%, 65%);
+  border: none;
+  width: auto;
+  height: auto;
+  padding: 30px;
+  border-radius: 100%;
+  cursor: pointer;
+
+  position: absolute;
+  right: 0px;
+  bottom: -55px;
+}
+
+button:active {
+  background-color: black;
+}
+
+.output-section {
+  margin-top: 60px;
+  line-height: 0;
+}
+
+.output-section p {
+  font-size: 90px;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.output-section span {
+  color: hsl(259, 100%, 65%);
+  font-size: 100px;
+}
+
+.attribution { font-size: 11px; text-align: center; }
+.attribution a { color: hsl(228, 45%, 44%); }
