@@ -24,75 +24,60 @@ function calculateAge(birthDate) {
     };
 }
 
-const btnEl = document.getElementById('calculateBtn');
-btnEl.addEventListener('click', () => {
-    const present = new Date();
-    const presentYear = present.getFullYear();
-
+document.getElementById('calculateBtn').addEventListener('click', () => {
+    const presentYear = new Date().getFullYear();
+    
     const day = document.getElementById('dayInput').value;
     const month = document.getElementById('monthInput').value;
     const year = document.getElementById('yearInput').value;
 
-    if (day === '') {
-        document.querySelector('.day.error-message').textContent = "This field is required";
-        document.querySelector('label[for="day"]').classList.add('invalid');
-        document.getElementById('dayInput').classList.add('error-input');
-    }
-    else if (day < 1 || day > 31) {
-        document.querySelector('.day.error-message').textContent = "Must be a valid day";
-        document.querySelector('label[for="day"]').classList.add('invalid');
-        document.getElementById('dayInput').classList.add('error-input');
-    }
-    else {
-        document.querySelector('.day.error-message').textContent = "";
-        document.querySelector('label[for="day"]').classList.remove('invalid');
-        document.getElementById('dayInput').classList.remove('error-input');
-    }
+    const inputs = [
+        { id: 'dayInput', value: day, label: 'day', max: 31, errorMessage: 'Must be a valid day' },
+        { id: 'monthInput', value: month, label: 'month', max: 12, errorMessage: 'Must be a valid month' },
+        { id: 'yearInput', value: year, label: 'year', max: presentYear, errorMessage: 'Must be a valid year', additionalCheck: year => year > presentYear ? 'Must be in the past' : '' }
+    ];
 
-    if (month === '') {
-        document.querySelector('.month.error-message').textContent = "This field is required";
-        document.querySelector('label[for="month"]').classList.add('invalid');
-        document.getElementById('monthInput').classList.add('error-input');
-    }
-    else if (month < 1 || month > 12) {
-        document.querySelector('.month.error-message').textContent = "Must be a valid month";
-        document.querySelector('label[for="month"]').classList.add('invalid');
-        document.getElementById('monthInput').classList.add('error-input');
-    }
-    else {
-        document.querySelector('.month.error-message').textContent = "";
-        document.querySelector('label[for="month"]').classList.remove('invalid');
-        document.getElementById('monthInput').classList.remove('error-input');
-    }
+    let isValid = true;
 
-    if (year === '') {
-        document.querySelector('.year.error-message').textContent = "This field is required";
-        document.querySelector('label[for="year"]').classList.add('invalid');
-        document.getElementById('yearInput').classList.add('error-input');
-    }
-    else if (year < 1) {
-        document.querySelector('.year.error-message').textContent = "Must be a valid year";
-        document.querySelector('label[for="year"]').classList.add('invalid');
-        document.getElementById('yearInput').classList.add('error-input');
-    }
-    else if (year > presentYear) {
-        document.querySelector('.year.error-message').textContent = "Must be in the past";
-        document.querySelector('label[for="year"]').classList.add('invalid');
-        document.getElementById('yearInput').classList.add('error-input');
-    }
-    else {
-        document.querySelector('.year.error-message').textContent = "";
-        document.querySelector('label[for="year"]').classList.remove('invalid');
-        document.getElementById('yearInput').classList.remove('error-input');
-    }
-    
-   
+    inputs.forEach(input => {
+        const { id, value, label, max, errorMessage, additionalCheck } = input;
+        const errorElement = document.querySelector(`.${label}.error-message`);
+        const labelElement = document.querySelector(`label[for="${label}"]`);
+        const inputElement = document.getElementById(id);
 
-    let birthDate = new Date(`${year}-${month}-${day}`);
-    var age = calculateAge(birthDate);
+        let message = '';
 
-    
-    
+        if (value === '') {
+            message = 'This field is required';
+        } 
+        if (id === 'yearInput') {
+            if (value < 1 ) {
+                message = errorMessage;
+            } else if (value > max) {
+                message = additionalCheck(value);
+            }
+        }
+        else if (value < 1 || value > max) {
+            message = errorMessage;
+        }
+
+        if (message) {
+            errorElement.textContent = message;
+            labelElement.classList.add('invalid');
+            inputElement.classList.add('error-input');
+            isValid = false;
+        } else {
+            errorElement.textContent = '';
+            labelElement.classList.remove('invalid');
+            inputElement.classList.remove('error-input');
+        }
+    });
+
+    if (!isValid) return;
+
+    const birthDate = new Date(`${year}-${month}-${day}`);
+    const age = calculateAge(birthDate);
+
     document.getElementById('years').textContent = age.years;
     document.getElementById('months').textContent = age.months;
     document.getElementById('days').textContent = age.days;
